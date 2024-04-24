@@ -4,7 +4,7 @@ import PetController from '../controllers/Pet.controllers.js';
 
 const PetRoute = express.Router();
 
-PetRoute.get('/api/test', PetController.Test)
+PetRoute.get('/api/test', PetController.test)
 
 
 

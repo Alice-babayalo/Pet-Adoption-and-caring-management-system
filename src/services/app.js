@@ -5,7 +5,7 @@ import PetRoute from '../routes/Pet.routes.js';
 
 
 const app = express();
-
+app.use('/Pet-Adoption', PetRoute)
 
 app.listen(configuration.PORT, ()=>{
     mongoDbConnect();
