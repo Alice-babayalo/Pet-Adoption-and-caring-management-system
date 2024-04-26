@@ -17,18 +17,6 @@ This project will include:
 - displaying pets which are not adopted yet and automatically remove those which are adopted with a very brief description of the bet information like videos of the bet, images, name , age and the type of the pet
 - the age of the pet will be automatically updated because the birthdate pf the pet will be in our database and everyday our system will calculate its age.
 
-
-### The technology used in the project
-
-- JavaScript
-  - models
-  - swagger documentation
-  - error handling
-  - middleware functions
-  - routes
-  - validation
-  - authorization and authentication
-
 ### What will be included in the model of the pet
 
 - the name of the pet
