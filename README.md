@@ -29,7 +29,6 @@ This project will include:
   - validation
   - authorization and authentication
 
-
 ### What will be included in the model of the pet
 
 - the name of the pet
@@ -37,5 +36,6 @@ This project will include:
 - the gender of the pet
 - the birthdate of the pet
 - the age of the pet
+
 
 ## Thank you for your time!
