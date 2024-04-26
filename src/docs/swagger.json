@@ -1,0 +1,107 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Pet Adoption API",
+        "description": "An API for managing pet adoption and management system",
+        "version": "1.0.0"
+    },
+    "host": "localhost:2024",
+    "basePath": "/Pet-Adoption",
+    "schemes": [
+        "http", "https"
+    ],
+    "paths": {
+        "/api/test": {
+            "get": {
+                "summary": "Test API endpoint",
+                "description": "Returns a 'Hello World!' message",
+                "tags": ["Pets"],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/add": {
+            "post": {
+                "summary": "Add a new pet",
+                "description": "Adds a new pet to the adoption list",
+                "tags": [
+                    "Pets"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Pet"
+                        },
+                        "required": true,
+                        "description": "Contact object"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Pets",
+            "description": "Operations pertaining to pets"
+        }
+    ],
+    "definitions": {
+        "Pet": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "required": true,
+                    "description":"the name of the pet to be adopted"
+                },
+                "description": {
+                    "type": "string",
+                    "description":"More about the pet in the adoption list",
+                    "required": true
+                },
+                "age": {
+                    "type": "integer",
+                    "description":"This integer describes how old or how young the pet is"
+                },
+                "gender": {
+                    "type":"string",
+                    "required":true,
+                    "description":"gender of the pet"
+                },
+                "ageType": {
+                    "type":"string",
+                    "required":true,
+                    "description":"The age of the pet may be measured in months, days or years! This depends on the life span of the pet",
+                    "enum":[
+                        "days",
+                        "months",
+                        "years"
+                    ],
+                    "default":"months"
+                },
+                "adopted":{
+                    "type":"string",
+                    "required":true
+                },
+                "dateOfBirth": {
+                    "type": "string",
+                    "required": true,
+                    "description": "The date of birth of the pet"
+                }
+            }
+        }
+    }
+}

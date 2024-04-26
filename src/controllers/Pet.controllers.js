@@ -6,7 +6,7 @@ import { validationResult } from 'express-validator';
 import asyncWrapper from "../middleware/assynctWaraper.js";
 
 const PetController = {
-    test : asyncWrapper((req, res, next) => {
+    test : asyncWrapper(async (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             console.log(errors.array());
@@ -23,8 +23,8 @@ const PetController = {
             next(new BadRequestError(errors.array()[0].msg));
         }
 
-        const newPet = await  Pet.create(req.body);
-        return res.status(201).json(newTask);
+        const newPet = await Pet.create(req.body);
+        return res.status(201).json(newPet);
     })
 }
 
