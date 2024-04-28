@@ -110,3 +110,10 @@ export const findAge = asyncWrapper(async (req, res, next) => {
         req.body.ageType=age.ageType;
     }
 })
+
+export const deleteAdopted = asyncWrapper(async(req, res, next) => {
+    if (req.body.adopted === true){
+        const deleteAdoptedPet = await Pet.findOneAndDelete()
+    }
+    //The pet which whill be adopted must be removed from our database because it is no longer for sale
+})
