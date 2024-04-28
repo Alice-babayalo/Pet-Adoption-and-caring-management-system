@@ -1,11 +1,21 @@
 import express from 'express';
-import { addTaskValidation } from '../validation/validation.js';
+import { addPetValidation } from '../validation/validation.js';
 import PetController from '../controllers/Pet.controllers.js';
 
 const PetRoute = express.Router();
 
-PetRoute.get('/api/test', PetController.test)
-PetRoute.post('/api/add', addTaskValidation,  PetController.AddPet)
+PetRoute.get('/test', PetController.test)
+PetRoute.post('/add', addPetValidation,  PetController.AddPet)
+PetRoute.get('/list', PetController.getPets)
+PetRoute.delete('/delete', PetController.deletePet)
+PetRoute.put('/update', PetController.updatePet)
+PetRoute.get('/findPetByAdoption/:adopted', PetController.findByAdopted);
+PetRoute.get('/findPetByGender/:gender', PetController.findPetByGender);
+PetRoute.get('/findPetByAgetype/:ageType', PetController.findPetByAgetype);
+PetRoute.get('/findPetById/:id', PetController.findPetById);
+PetRoute.get('/findPetByName/:name', PetController.findPetByName);
+
+
 
 
 

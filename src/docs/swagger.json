@@ -6,27 +6,24 @@
         "version": "1.0.0"
     },
     "host": "localhost:2024",
-    "basePath": "/Pet-Adoption",
+    "basePath": "/Pet-Adoption/api",
     "schemes": [
         "http", "https"
     ],
     "paths": {
-        "/api/test": {
+        "/test": {
             "get": {
                 "summary": "Test API endpoint",
                 "description": "Returns a 'Hello World!' message",
                 "tags": ["Pets"],
                 "responses": {
                     "200": {
-                        "description": "Success",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "description": "Success"
                     }
                 }
             }
         },
-        "/api/add": {
+        "/add": {
             "post": {
                 "summary": "Add a new pet",
                 "description": "Adds a new pet to the adoption list",
@@ -41,7 +38,7 @@
                             "$ref": "#/definitions/Pet"
                         },
                         "required": true,
-                        "description": "Contact object"
+                        "description": "Pet object"
                     }
                 ],
                 "responses": {
@@ -50,7 +47,221 @@
                     }
                 }
             }
+        },
+        "/delete/{id}":{
+            "delete": {
+                "summary": "Delete a Pet by ID",
+                "description": "Delete a Pet by ID",
+                "tags": ["Pets"],
+                "parameters": [
+                  {
+                    "name": "id",
+                    "in": "path",
+                    "description": "ID of the Pet to delete",
+                    "required": true,
+                    "schema": {
+                      "type": "string"
+                    }
+                  }
+                ],
+                "responses": {
+                  "204": {
+                    "description": "Pet deleted"
+                  },
+                  "404": {
+                    "description": "Pet not found"
+                  }
+                }
+              }
+        },
+        "/update/{id}":{
+            "put": {
+                "summary": "Update a Pet by ID",
+                "description": "Update the information of a Pet by ID",
+                "tags": ["Pets"],
+                "parameters": [
+                  {
+                    "name": "id",
+                    "in": "path",
+                    "description": "ID of the Pet to update",
+                    "required": true,
+                    "schema": {
+                      "type": "string"
+                    }
+                  },
+                  {
+                    "in": "body",
+                    "name": "body",
+                    "description": "Updated Pet information",
+                    "required": true,
+                    "schema": {
+                      "$ref": "#/definitions/Pet"
+                    }
+                  }
+                ],
+                "responses": {
+                  "204": {
+                    "description": "Pet updated successfully"
+                  },
+                  "404": {
+                    "description": "Pet not found"
+                  }
+                }
+               }
+        },
+        "/list":{
+            "get": {
+                "summary": "List all Pets",
+                "description": "Retrieve a list of all Pets stored in the database",
+                "tags":["Pets"],
+                "responses": {
+                  "200": {
+                    "description": "Successfully retrieved list of Pets",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "array"
+                        }
+                      }
+                    }
+                  },
+                  "404": {
+                    "description": "No Pets found"
+                  },
+                  "500": {
+                    "description": "Internal server error"
+                  }
+                }
+            }      
+        },
+        "/findPetById/{id}":{
+            "get": {
+                "summary": "Get a Pet by ID",
+                "description": "Get a Pet by ID",
+                "tags": ["Pets"],
+                "parameters": [
+                  {
+                    "name": "id",
+                    "in": "path",
+                    "description": "ID of the Pet to retrieve",
+                    "required": true,
+                    "schema": {
+                      "type": "string"
+                    }
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Successful response"
+                  },
+                  "404": {
+                    "description": "Pet not found"
+                  }
+                }
+              }
+        },
+        "/findPetByName/{name}":{
+            "get": {
+                "summary": "Get a Pet by name",
+                "description": "Retrieve the pet(s) matching the given name",
+                "tags": ["Pets"],
+                "parameters": [
+                  {
+                    "name": "name",
+                    "in": "path",
+                    "description": "name of the Pet to retrieve",
+                    "required": true,
+                    "schema": {
+                      "type": "string"
+                    }
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Successful response"
+                  },
+                  "404": {
+                    "description": "Pet not found"
+                  }
+                }
+              }
+        },
+        "/findPetByAgetype/{ageType}":{
+            "get": {
+                "summary": "Get a Pet by age type",
+                "description": "retrieves a list of pets according to their age type, they may be days, months, or years",
+                "tags": ["Pets"],
+                "parameters": [
+                  {
+                    "name": "ageType",
+                    "in": "path",
+                    "description": "AgeType of the Pet to retrieve",
+                    "required": true,
+                    "schema": {
+                      "type": "string"
+                    }
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Successful response"
+                  },
+                  "404": {
+                    "description": "Pet not found"
+                  }
+                }
+              }
+        },
+        "/findPetByGender/{gender}":{
+            "get": {
+                "summary": "Get a Pet by gender",
+                "description": "Retrieves a list of pets with the given gender",
+                "tags": ["Pets"],
+                "parameters": [
+                  {
+                    "name": "gender",
+                    "in": "path",
+                    "description": "Gender of the Pet to retrieve",
+                    "required": true,
+                    "schema": {
+                      "type": "string"
+                    }
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Successful response"
+                  },
+                  "404": {
+                    "description": "Pet not found"
+                  }
+                }
+              }
+        },
+        "/findPetByAdoption/{adopted}":{
+            "get": {
+                "summary": "Get a Pet by Adoption status",
+                "description": "Here we retrieve the pets based on whether they are adopted or not, you just have to put true or false",
+                "tags": ["Pets"],
+                "parameters": [
+                  {
+                    "name": "adopted",
+                    "in": "path",
+                    "description": "Adoption status of the Pet to retrieve",
+                    "required": true
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Successful response"
+                  },
+                  "404": {
+                    "description": "Pet not found"
+                  }
+                }
+              }
         }
+        
     },
     "tags": [
         {
@@ -93,13 +304,15 @@
                     "default":"months"
                 },
                 "adopted":{
-                    "type":"string",
-                    "required":true
+                    "type":"Boolean",
+                    "required":true,
+                    "default":false
                 },
                 "dateOfBirth": {
                     "type": "string",
                     "required": true,
-                    "description": "The date of birth of the pet"
+                    "description": "The date of birth of the pet",
+                    "default": "2024-04-28T06:45:35.338Z"
                 }
             }
         }
