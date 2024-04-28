@@ -1,11 +1,11 @@
 import express from 'express';
 import { addPetValidation } from '../validation/validation.js';
-import PetController from '../controllers/Pet.controllers.js';
+import {PetController, findAge} from '../controllers/Pet.controllers.js';
 
 const PetRoute = express.Router();
 
 PetRoute.get('/test', PetController.test)
-PetRoute.post('/add', addPetValidation,  PetController.AddPet)
+PetRoute.post('/add', addPetValidation,  PetController.AddPet, findAge)
 PetRoute.get('/list', PetController.getPets)
 PetRoute.delete('/delete', PetController.deletePet)
 PetRoute.put('/update', PetController.updatePet)

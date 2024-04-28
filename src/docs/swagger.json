@@ -312,7 +312,7 @@
                     "type": "string",
                     "required": true,
                     "description": "The date of birth of the pet",
-                    "default": "2024-04-28T06:45:35.338Z"
+                    "default": "Jan 21 2024 12:38:27 GMT+0000"
                 }
             }
         }

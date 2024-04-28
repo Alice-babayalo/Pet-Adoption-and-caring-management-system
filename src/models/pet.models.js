@@ -18,7 +18,7 @@ const petSchema = new mongoose.Schema({
     dateOfBirth: {
         type: Date, // Changed from String to Date
         required: false,
-        default: new Date
+        default: "Jan 21 2024 12:38:27 GMT+0000"
     },
     age: {
         type: Number,

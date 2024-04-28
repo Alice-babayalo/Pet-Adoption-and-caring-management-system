@@ -1,11 +1,12 @@
 import Pet from "../models/pet.models.js";
 import { NotFoundError, BadRequestError } from "../errors/index.js";
 import { validationResult } from 'express-validator';
+import { ageCalculator } from "../TimeCalculator/ageCalculator.js";
 
 
 import asyncWrapper from "../middleware/assynctWaraper.js";
 
-const PetController = {
+export const PetController = {
     test : asyncWrapper(async (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -100,5 +101,12 @@ const PetController = {
 }
 
 
-
-export default PetController;
+export const findAge = asyncWrapper(async (req, res, next) => {
+    if (req.body.dateOfBirth){
+        req.body.dateOfBirth = bD;
+        const tD = new Date();
+        ageCalculator(tD, bD);
+        req.body.age=age.agePeriod;
+        req.body.ageType=age.ageType;
+    }
+})
