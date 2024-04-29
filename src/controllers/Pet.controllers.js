@@ -1,7 +1,7 @@
 import Pet from "../models/pet.models.js";
 import { NotFoundError, BadRequestError } from "../errors/index.js";
 import { validationResult } from 'express-validator';
-import { ageCalculator } from "../TimeCalculator/ageCalculator.js";
+import { ageCalculator } from "../utils/ageCalculator.js";
 
 
 import asyncWrapper from "../middleware/assynctWaraper.js";
