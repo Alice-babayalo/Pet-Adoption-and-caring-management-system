@@ -19,8 +19,8 @@
 
 
 const ErrorHandlerMiddleware = (err, req, res, next) => {
-    const errStatus = err.statusCode || 500;
-    const errMessage = err.message || "Internal Server Error";
+    let errStatus = err.statusCode || 500;
+    let errMessage = err.message || "Internal Server Error";
     
     if (err.name === 'ValidationError') {
         errMessage = Object.values(err.errors)
@@ -33,7 +33,7 @@ const ErrorHandlerMiddleware = (err, req, res, next) => {
         errMessage = `Duplicate value entered for ${Object.keys(err.keyValue)} field, please choose another value`;
         errStatus = 400;
     }
-
+ 
     if (err.name === 'Cast Error') {
         errMessage = `No item found with id: ${err.value}`
         errStatus = 404;

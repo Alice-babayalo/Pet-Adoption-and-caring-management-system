@@ -2,13 +2,14 @@ import express, { json } from 'express';
 import swaggerUi from 'swagger-ui-express'
 import configuration from '../configs/index.js';
 import mongoDbConnect from './database.js';
-import PetRoute from '../routes/Pet.routes.js';
+import route from '../routes/index.js';
 import documentation from '../docs/swagger.json' assert {"type": "json"}
 import ErrorHandlerMiddleware from "../middleware/ErrorHandlerV2.js";
 
 
 const app = express();
-app.use('/Pet-Adoption/api', PetRoute)
+app.use(express.json());
+app.use('/api', route)
 app.use('/api-documentation', swaggerUi.serve, swaggerUi.setup(documentation))
 
 

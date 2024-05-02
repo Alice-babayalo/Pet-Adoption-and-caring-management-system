@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const petSchema = new mongoose.Schema({
-    name: {
+    petName: {
         type: String,
         required: true
     },
@@ -18,7 +18,7 @@ const petSchema = new mongoose.Schema({
     dateOfBirth: {
         type: Date, // Changed from String to Date
         required: false,
-        default: "Jan 21 2024 12:38:27 GMT+0000"
+        default: "018-04-21T13:00:00.000Z"
     },
     age: {
         type: Number,

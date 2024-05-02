@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, validationResult } from "express-validator";
 
 export const addPetValidation = [
     body("name")
@@ -21,3 +21,10 @@ export const addPetValidation = [
         .not().isEmpty().withMessage("Is the pet adopted or not")
         .isBoolean().withMessage("Adopted field must be a boolean value")
 ];
+
+export const userValidation = [
+    body("userName", "User name is required").not().isEmpty(),
+    body("email", "Email is required").not().isEmpty(),
+    body("email", "Invalid email").isEmail(),
+];
+
