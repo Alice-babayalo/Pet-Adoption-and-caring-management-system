@@ -5,7 +5,7 @@ import { ageTime } from '../middleware/PetAge.js';
 
 const PetRoute = express.Router();
 
-PetRoute.post('/add', ageTime,  PetController.AddPet, addPetValidation,)
+PetRoute.post('/add', ageTime,  PetController.AddPet, addPetValidation)
 PetRoute.get('/list', PetController.getPets)
 PetRoute.delete('/delete', PetController.deletePet)
 
@@ -15,12 +15,12 @@ PetRoute.delete('/delete', PetController.deletePet)
 // We will do this in this route PetRoute.put('/update', PetController.updatePet, deleteAdoption)
 // Or just delete where the req.body.adopted = true 
 
-PetRoute.put('/update', PetController.updatePet)
-PetRoute.get('/findPetByAdoption/:adopted', PetController.findByAdopted);
-PetRoute.get('/findPetByGender/:gender', PetController.findPetByGender);
-PetRoute.get('/findPetByAgetype/:ageType', PetController.findPetByAgetype);
-PetRoute.get('/findPetById/:id', PetController.findPetById);
-PetRoute.get('/findPetByName/:name', PetController.findPetByName);
+PetRoute.put('/update/:id', ageTime, PetController.updatePet, addPetValidation)
+PetRoute.get('/findPetByAdoption', PetController.findByAdopted);
+PetRoute.get('/findPetByGender', PetController.findPetByGender);
+PetRoute.get('/findPetByAgetype', PetController.findPetByAgetype);
+PetRoute.get('/findPetById', PetController.findPetById);
+PetRoute.get('/findPetByName', PetController.findPetByName);
 
 
 

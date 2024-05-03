@@ -32,11 +32,11 @@ export const PetController = {
         }
     }),
     deletePet: asyncWrapper(async (req, res, next) => {
-        const deletePet = await Pet.findByIdAndDelete(req.params.id);
-        if (!deletePet) {
-            return next(new NotFoundError(`Pet not found`));
-        }
-        res.status(200).json({ message: "Pet deleted" });
+        const deletePet = await Pet.findByIdAndDelete(req.query.id);
+            if (!deletePet) {
+                return next(new NotFoundError(`Pet not found`));
+            }
+            res.status(200).json({ message: "Pet deleted" });
     }),
     updatePet: asyncWrapper(async (req, res, next) => {
         const updatedPet = await Pet.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -46,15 +46,14 @@ export const PetController = {
         return res.status(200).json(updatedPet);
     }),
     findByAdopted: asyncWrapper(async (req, res, next) => {
-        const adopt = req.params.adopted;
-        const findAdopted = await Pet.find({ adopted: adopt });
+        const findAdopted = await Pet.find({ adopted: req.query.adopted });
         res.status(200).json({
             numberOfPets: findAdopted.length,
             findAdopted
         })
     }),
     findPetById: asyncWrapper(async (req, res, next) => {
-        const foundPet = await Pet.findById(req.params.id)
+        const foundPet = await Pet.findById(req.query.id)
         if (!foundPet) {
             return next(new NotFoundError(`Pet not found`));
         }
@@ -64,32 +63,32 @@ export const PetController = {
         })
     }),
     findPetByName: asyncWrapper(async (req, res, next) => {
-        const foundPet = await Pet.find({ name: req.params.name })
+        const foundPet = await Pet.find({ petName: req.query.petName })
         if (!foundPet) {
             return next(new NotFoundError(`Pet not found`));
         }
         return res.status(200).json({
-            message: "Pet found",
+            numberOfPets: foundPet.length,
             foundPet
         })
     }),
     findPetByGender: asyncWrapper(async (req, res, next) => {
-        const foundPet = await Pet.find({ gender: req.params.gender })
+        const foundPet = await Pet.find({ gender: req.query.gender })
         if (!foundPet) {
             return next(new NotFoundError(`Pet not found`));
         }
         return res.status(200).json({
-            message: "Pet found",
+            numberOfPets: foundPet.length,
             foundPet
         })
     }),
     findPetByAgetype: asyncWrapper(async (req, res, next) => {
-        const foundPet = await Pet.find({ ageType: req.params.ageType })
+        const foundPet = await Pet.find({ ageType: req.query.ageType })
         if (!foundPet) {
             return next(new NotFoundError(`Pet not found`));
         }
         return res.status(200).json({
-            message: "Pet found",
+            numberOfPets: foundPet.length,
             foundPet
         })
     })

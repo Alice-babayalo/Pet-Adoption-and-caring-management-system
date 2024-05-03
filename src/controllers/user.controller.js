@@ -9,7 +9,7 @@ export const newUser = asyncWrapper( async (req, res, next)=>{
         res.status(200).json({message: "User already exists"})
     }
     const newuser = await userModel.create({
-        userName: req.user.userName,
+        userName: req.body.userName,
         email: req.body.email,
         address: req.body.address,
         phone: req.body.phone,

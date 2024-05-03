@@ -1,5 +1,5 @@
 import express from 'express';
-import userRoute from './user.route.js';
+import userRoute from './user.routes.js';
 import PetRoute from './Pet.routes.js';
 
 
