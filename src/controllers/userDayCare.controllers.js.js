@@ -13,7 +13,7 @@ export const newUser = asyncWrapper( async (req, res, next)=>{
         email: req.body.email,
         address: req.body.address,
         phone: req.body.phone,
-        interestingPetId: req.body.pet
+        pet: req.body.pet
     })
     await sendEmail(req.body.email,
         "Pet adoption at RissaVette",

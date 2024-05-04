@@ -27,6 +27,6 @@ const userSchema = new mongoose.Schema({
         timestamps: true,
     })
 
-const UserModel = mongoose.model('adotionUser', userSchema)
+const UserModel = mongoose.model('adoptionUser', userSchema)
 
 export default UserModel;
