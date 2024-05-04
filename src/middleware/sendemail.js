@@ -10,7 +10,7 @@ export const sendEmail = (recipient, subject, body) => {
     });
 
     const mailOptions = {
-        from: '"RissaVette" <umuhozawasealice@gmail.com>',
+        from: '"LissaVette" <umuhozawasealice@gmail.com>',
         to: recipient,
         subject: subject,
         text: body

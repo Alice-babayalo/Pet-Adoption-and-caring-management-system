@@ -18,8 +18,8 @@ export const newUser = asyncWrapper(async (req, res, next) => {
     })
     await sendEmail(
         req.body.email,
-        "Pet adoption at RissaVette",
-        "Dear " + req.body.userName + ",  thank you for your interest in RissaVette! \nYour interesting request in adopting a pet is well received! the call centre of RissaVette with the number 0787887312 is heading to call you in a while.\nIn case you did not receive any call from the call centre, please contact us through email!");
+        "Pet adoption at LissaVette",
+        "Dear " + req.body.userName + ",  thank you for your interest in LissaVette! \nYour interesting request in adopting a pet is well received! the call centre of LissaVette with the number 0787887312 is heading to call you in a while.\nIn case you did not receive any call from the call centre, please contact us through email!");
 
     const savedUser = await newuser.save();
     // console.log(savedUser);
