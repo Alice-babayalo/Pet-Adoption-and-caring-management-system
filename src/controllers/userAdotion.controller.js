@@ -1,5 +1,6 @@
 import asyncWrapper from '../middleware/assynctWaraper.js';
 import userModel from '../models/adoptionUser.models.js';
+import { sendEmail } from '../middleware/sendemail.js';
 
 
 
@@ -15,9 +16,10 @@ export const newUser = asyncWrapper(async (req, res, next) => {
         phone: req.body.phone,
         interestingPetId: req.body.pet
     })
-    await sendEmail(req.body.email, req.body.userName + ", thank you for your interest in RissaVette!",
-        "your interesting request in adopting a pet is well received! the call centre of RissaVette with the number 0787887312 is heading to call you in a while.",
-        "In case you did not receive any call from the call centre, please contact us through email!");
+    await sendEmail(
+        req.body.email,
+        "Pet adoption at RissaVette",
+        "Dear " + req.body.userName + ",  thank you for your interest in RissaVette! \nYour interesting request in adopting a pet is well received! the call centre of RissaVette with the number 0787887312 is heading to call you in a while.\nIn case you did not receive any call from the call centre, please contact us through email!");
 
     const savedUser = await newuser.save();
     // console.log(savedUser);
