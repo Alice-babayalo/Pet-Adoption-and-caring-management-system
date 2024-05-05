@@ -11,14 +11,15 @@ const dayCareSchema = new mongoose.Schema({
         unique: true
     },
     address: {
-        type: Array
+        type: String
     },
     phone: {
         type: String,
         required: [true, 'Phone number is required']
     },
     petName:{
-        type: String
+        type: String,
+        required: true
     }
 },
     {

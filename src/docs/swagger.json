@@ -6,24 +6,12 @@
         "version": "1.0.0"
     },
     "host": "localhost:2024",
-    "basePath": "/Pet-Adoption/api",
+    "basePath": "/api",
     "schemes": [
         "http", "https"
     ],
     "paths": {
-        "/test": {
-            "get": {
-                "summary": "Test API endpoint",
-                "description": "Returns a 'Hello World!' message",
-                "tags": ["Pets"],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    }
-                }
-            }
-        },
-        "/add": {
+        "/pet/add": {
             "post": {
                 "summary": "Add a new pet",
                 "description": "Adds a new pet to the adoption list",
@@ -48,7 +36,7 @@
                 }
             }
         },
-        "/delete/{id}":{
+        "/pet/delete/{id}":{
             "delete": {
                 "summary": "Delete a Pet by ID",
                 "description": "Delete a Pet by ID",
@@ -74,7 +62,7 @@
                 }
               }
         },
-        "/update/{id}":{
+        "/pet/update/{id}":{
             "put": {
                 "summary": "Update a Pet by ID",
                 "description": "Update the information of a Pet by ID",
@@ -109,7 +97,7 @@
                 }
                }
         },
-        "/list":{
+        "/pet/list":{
             "get": {
                 "summary": "List all Pets",
                 "description": "Retrieve a list of all Pets stored in the database",
@@ -134,7 +122,7 @@
                 }
             }      
         },
-        "/findPetById/{id}":{
+        "/pet/findPetById?id={id}":{
             "get": {
                 "summary": "Get a Pet by ID",
                 "description": "Get a Pet by ID",
@@ -160,7 +148,7 @@
                 }
               }
         },
-        "/findPetByName/{name}":{
+        "/pet/findPetByName?petName={name}":{
             "get": {
                 "summary": "Get a Pet by name",
                 "description": "Retrieve the pet(s) matching the given name",
@@ -186,7 +174,7 @@
                 }
               }
         },
-        "/findPetByAgetype/{ageType}":{
+        "/pet/findPetByAgetype?ageType={ageType}":{
             "get": {
                 "summary": "Get a Pet by age type",
                 "description": "retrieves a list of pets according to their age type, they may be days, months, or years",
@@ -212,7 +200,7 @@
                 }
               }
         },
-        "/findPetByGender/{gender}":{
+        "/pet/findPetByGender?gender={gender}":{
             "get": {
                 "summary": "Get a Pet by gender",
                 "description": "Retrieves a list of pets with the given gender",
@@ -238,7 +226,7 @@
                 }
               }
         },
-        "/findPetByAdoption/{adopted}":{
+        "/pet/findPetByAdoption?adopted={adopted}":{
             "get": {
                 "summary": "Get a Pet by Adoption status",
                 "description": "Here we retrieve the pets based on whether they are adopted or not, you just have to put true or false",
@@ -260,13 +248,121 @@
                   }
                 }
               }
+        },
+        "/dayCareUser/addClient": {
+          "post": {
+              "summary": "Add a new user who wants to book a day CARE service for a pet",
+              "description": "Adds a new user who is interested in a day CARE service for his or her pet ",
+              "tags": [
+                  "dayCareService"
+              ],
+              "parameters": [
+                  {
+                      "in": "body",
+                      "name": "body",
+                      "schema": {
+                          "$ref": "#/definitions/dayCareUser"
+                      },
+                      "required": true,
+                      "description": "Pet object"
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Success"
+                  }
+              }
+          }
+      },
+      "/dayCareUser/allClients":{
+          "get": {
+              "summary": "List all Clients",
+              "description": "Retrieve a list of all Clients who wanted to book for a day care sercive for their pet(s) in the database",
+              "tags":["dayCareService"],
+              "responses": {
+                "200": {
+                  "description": "Successfully retrieved list of Clients",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "array"
+                      }
+                    }
+                  }
+                },
+                "404": {
+                  "description": "No Pets found"
+                },
+                "500": {
+                  "description": "Internal server error"
+                }
+              }
+          }      
+      },
+      "/adoptionUser/addClient": {
+        "post": {
+            "summary": "Add a new user who wants to adopt a pet",
+            "description": "Adds a new user who is interested in adopting a pet for living with them for the rest of their lives.",
+            "tags": [
+                "adoptionService"
+            ],
+            "parameters": [
+                {
+                    "in": "body",
+                    "name": "body",
+                    "schema": {
+                        "$ref": "#/definitions/adoptionuser"
+                    },
+                    "required": true,
+                    "description": "Pet object"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Success"
+                }
+            }
         }
-        
+    },
+    "/adoptionUser/allClients":{
+        "get": {
+            "summary": "List all Clients",
+            "description": "Retrieve a list of all Clients who wanted to adopt pets in our vette",
+            "tags":["adoptionService"],
+            "responses": {
+              "200": {
+                "description": "Successfully retrieved list of Clients",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "array"
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "No Pets found"
+              },
+              "500": {
+                "description": "Internal server error"
+              }
+            }
+        }      
+    }
+      
     },
     "tags": [
         {
-            "name": "Pets",
-            "description": "Operations pertaining to pets"
+          "name": "Pets",
+          "description": "Operations pertaining to pets"
+        },
+        {
+          "name": "dayCareService",
+          "description": "Operations pertaining to users who want to book a daycare service for their pets"
+        },
+        {
+          "name": "adoptionService",
+          "description": "Operations pertaining to users who want to adopt a pet from our vette"
         }
     ],
     "definitions": {
@@ -315,6 +411,62 @@
                     "default": "Jan 21 2024 12:38:27 GMT+0000"
                 }
             }
+        },
+        "dayCareUser": {
+          "type": "object",
+          "properties": {
+            "userName": {
+              "type": "string",
+              "required": true,
+              "description": "the name of the user"
+            },
+            "email": {
+              "type": "string",
+              "description": "The user email address",
+              "required": true
+            },
+            "address": {
+              "type": "string",
+              "description": "The client's address"
+            },
+            "phone": {
+              "type": "string",
+              "required": true,
+              "description": "The phone number of the client"
+            },
+            "petName": {
+              "type": "string",
+              "required": true
+            }
+          }
+        },
+        "adoptionuser": {
+          "type": "object",
+          "properties": {
+            "userName": {
+              "type": "string",
+              "required": true,
+              "description": "the name of the user"
+            },
+            "email": {
+              "type": "string",
+              "description": "The user email address",
+              "required": true
+            },
+            "address": {
+              "type": "string",
+              "description": "The client's address"
+            },
+            "phone": {
+              "type": "string",
+              "required": true,
+              "description": "The phone number of the client"
+            },
+            "pet": {
+              "type": "string",
+              "required": true
+            }
+          }
         }
     }
 }

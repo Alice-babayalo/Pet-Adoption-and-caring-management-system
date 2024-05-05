@@ -16,11 +16,11 @@ PetRoute.delete('/delete', PetController.deletePet)
 // Or just delete where the req.body.adopted = true 
 
 PetRoute.put('/update/:id', ageTime, PetController.updatePet, addPetValidation)
-PetRoute.get('/findPetByAdoption', PetController.findByAdopted);
-PetRoute.get('/findPetByGender', PetController.findPetByGender);
-PetRoute.get('/findPetByAgetype', PetController.findPetByAgetype);
-PetRoute.get('/findPetById', PetController.findPetById);
-PetRoute.get('/findPetByName', PetController.findPetByName);
+PetRoute.get('/findPetByAdoption', ageTime, PetController.findByAdopted);
+PetRoute.get('/findPetByGender', ageTime, PetController.findPetByGender);
+PetRoute.get('/findPetByAgetype', ageTime, PetController.findPetByAgetype);
+PetRoute.get('/findPetById', ageTime, PetController.findPetById);
+PetRoute.get('/findPetByName', ageTime, PetController.findPetByName);
 
 
 
