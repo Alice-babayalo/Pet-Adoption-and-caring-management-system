@@ -1,44 +1,49 @@
 import asyncWrapper from '../middleware/assynctWaraper.js';
-import userModel from '../models/adoptionUser.models.js';
+import UserModel from '../models/adoptionUser.models.js';
 import { sendEmail } from '../middleware/sendemail.js';
-
+import { BadRequestError } from "../errors/index.js";
+import { validationResult } from 'express-validator';
 
 
 export const newUser = asyncWrapper(async (req, res, next) => {
-    const arleadyExistingUser = await userModel.findOne({ userName: req.user.userName });
-    if (arleadyExistingUser) {
-        res.status(200).json({ message: "User already exists" })
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new BadRequestError(errors.array()[0].msg));
     }
-    const newuser = await userModel.create({
-        userName: req.body.userName,
-        email: req.body.email,
-        address: req.body.address,
-        phone: req.body.phone,
-        interestingPetId: req.body.pet
-    })
-    await sendEmail(
-        req.body.email,
-        "Pet adoption at LissaVette",
-        "Dear " + req.body.userName + ",  thank you for your interest in LissaVette! \nYour interesting request in adopting a pet is well received! the call centre of LissaVette with the number 0787887312 is heading to call you in a while.\nIn case you did not receive any call from the call centre, please contact us through email!");
 
-    const savedUser = await newuser.save();
-    // console.log(savedUser);
+    try {
+        const existingUser = await UserModel.findOne({ userName: req.body.userName });
+        if (existingUser) {
+            return res.status(200).json({ message: "User already exists" });
+        }
 
-    if (savedUser) {
+        const newUser = await UserModel.create(req.body);
+
+        await sendEmail(
+            req.body.email,
+            "Pet adoption at LissaVette",
+            `Dear ${req.body.userName}, \nthank you for your interest in LissaVette! Your request to adopt a pet has been received. Our call centre will contact you shortly as 0787887312. \nIf you don't receive a call, please contact us via email.`);
+
         return res.status(201).json({
             message: "Adoption client received!",
-            user: savedUser
+            user: newUser
         });
+    } catch (error) {
+        next(error);
     }
-
-})
+});
 
 
 export const allClients = asyncWrapper(async (req, res, next) => {
-    const eachuser = await userModel.find({})
+    try {
+        const eachUser = await UserModel.find({}).populate('pet');
 
-    res.status(200).json({
-        numberOfClients: eachuser.length,
-        allClients: eachuser
-    });
-})
+        res.status(200).json({
+            numberOfClients: eachUser.length,
+            allClients: eachUser
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
