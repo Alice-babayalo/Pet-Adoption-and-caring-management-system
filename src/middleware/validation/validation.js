@@ -28,3 +28,30 @@ export const userValidation = [
     body("email", "Invalid email").isEmail(),
 ];
 
+export const signUpValidations = [
+   
+    body("username", "User name  is required").not().isEmpty(),
+    body("email", "Email is required").not().isEmpty(),
+    body("email", "Invalid email").isEmail(),
+    body("password", "Password is required").not().isEmpty(),
+    body("password", "Password should contain atleast 8 characters, uppercase and lower case letters, numbers, and symbols").isStrongPassword()
+];
+
+export const logInValidations = [
+    body("email", "Email is required").not().isEmpty(),
+    body("email", "Invalid email").isEmail(),
+    body("password", "Password is required").not().isEmpty(),
+    body("password", "Invalid password").isStrongPassword()
+];
+export const otpValidation = [
+    body("otp", "Otp must be provided").not().isEmpty(),
+];
+export const forgotPasswordValidation = [
+    body("email", "Email must be provided").not().isEmpty(),
+];
+
+export const resetPasswordValidation = [
+    body("password", "Password is required").not().isEmpty(),
+    body("password", "Password should contain atleast 8 characters, uppercase and lower case letters, numbers, and symbols").isStrongPassword()
+];
+

@@ -1,5 +1,5 @@
 import asyncWrapper from '../middleware/assynctWaraper.js';
-import UserModel from '../models/adoptionUser.models.js';
+import dareCareModel from '../models/dayCare.model.js';
 import { sendEmail } from '../middleware/sendemail.js';
 import { BadRequestError } from "../errors/index.js";
 import { validationResult } from 'express-validator';
@@ -12,40 +12,37 @@ export const newUser = asyncWrapper(async (req, res, next) => {
     }
 
     try {
-        const existingUser = await UserModel.findOne({ userName: req.body.userName });
-        if (existingUser) {
-            return res.status(200).json({ message: "User already exists" });
+
+        const newUser = await dareCareModel.create(req.body);
+
+        await sendEmail(req.body.email,
+            "day care at LissaVette",
+            "Dear " + req.body.userName + ",\n  thank you for your interest in LissaVette! \nYour interesting request in booking a daycare for your pet '"+req.body.petName+"' is well received! the call centre of LissaVette with the number 0787887312 is heading to call you in a while.\nIn case you did not receive any call from the call centre, please contact us through email!");
+
+        const savedUser = await newUser.save();
+
+        if (savedUser) {
+            return res.status(201).json({
+                message: "dayCare client received!",
+                user: savedUser
+            });
         }
-
-        const newUser = await UserModel.create(req.body);
-
-        await sendEmail(
-            req.body.email,
-            "Pet adoption at LissaVette",
-            `Dear ${req.body.userName}, \nthank you for your interest in LissaVette! Your request to adopt a pet has been received. Our call centre will contact you shortly as 0787887312. \nIf you don't receive a call, please contact us via email.`);
-
-        return res.status(201).json({
-            message: "Adoption client received!",
-            user: newUser
-        });
-    } catch (error) {
+    } 
+    catch (error) {
         next(error);
     }
 });
 
 
-export const allClients = asyncWrapper(async (req, res, next) => {
-    try {
-        const eachUser = await UserModel.find({}).populate('pet');
+export const allClients = asyncWrapper(async(req, res, next) => {
+    const eachuser = await dareCareModel.find({})
 
-        res.status(200).json({
-            numberOfClients: eachUser.length,
-            allClients: eachUser
-        });
-    } catch (error) {
-        next(error);
-    }
-});
+    res.status(200).json({ 
+        numberOfClients: eachuser.length,
+        allClients: eachuser
+    });
+})
+
 
 export const SignUp = asyncWrapper(async (req, res, next) => {
     // Validation
@@ -55,7 +52,7 @@ export const SignUp = asyncWrapper(async (req, res, next) => {
     }
   
     // Checking if the user is already in using the email
-    const foundUser = await UserModel.findOne({ email: req.body.email });
+    const foundUser = await dareCareModel.findOne({ email: req.body.email });
     if (foundUser) {
       return next(new BadRequestError("Email already in use"));
     };
@@ -68,7 +65,7 @@ export const SignUp = asyncWrapper(async (req, res, next) => {
     const otpExpirationDate = new Date().getTime() + (60 * 1000 * 10);
   
     // Recording the user to the database
-    const newUser = new UserModel(req.body);
+    const newUser = new dareCareModel(req.body);
   
     const savedUser = await newUser.save();
     // console.log(savedUser);
@@ -93,7 +90,7 @@ export const SignUp = asyncWrapper(async (req, res, next) => {
     }
   
     // Checking if the given opt is stored in our database
-    const foundUser = await UserModel.findOne({ otp: req.body.otp });
+    const foundUser = await dareCareModel.findOne({ otp: req.body.otp });
     if (!foundUser) {
       next(new UnauthorizedError('Authorization denied'));
   
@@ -124,7 +121,7 @@ export const SignUp = asyncWrapper(async (req, res, next) => {
     }
   
     // Find user
-    const foundUser = await UserModel.findOne({ email: req.body.email });
+    const foundUser = await dareCareModel.findOne({ email: req.body.email });
     if (!foundUser) {
       foundUser = await hospitalModel.findOne({ email: req.body.email });
       return next(new BadRequestError("Invalid email or password!"));
@@ -161,7 +158,7 @@ export const SignUp = asyncWrapper(async (req, res, next) => {
   //forgot password
   export const forgotPassword = asyncWrapper(async (req, res, next) => {
     const { email } = req.body;
-    const user = await UserModel.findOne({ email });
+    const user = await dareCareModel.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -172,7 +169,7 @@ export const SignUp = asyncWrapper(async (req, res, next) => {
     user.resetToken = resetToken;
     user.resetTokenExpires = Date.now() + (10 * 60 * 1000);
     await user.save();
-    const link = `http://localhost:2024/reset?token=${resetToken}&id=${user.id}`;
+    const link = `http://localhost:2024/api/dayCareUser/reset?token=${resetToken}&id=${user.id}`;
     const emailBody = `Click on the link bellow to reset your password\n\n${link}`;
   
     await sendEmail(req.body.email, "Reset your password", emailBody);
@@ -184,7 +181,7 @@ export const SignUp = asyncWrapper(async (req, res, next) => {
   //reset password
   export const resetPassword = asyncWrapper(async (req, res) => {
     const token = req.params.resetToken;
-    const user = await UserModel.findOne({ resetToken: token });
+    const user = await dareCareModel.findOne({ resetToken: token });
     if (!user) {
       return res.status(400).json({ message: 'Invalid or expired token' });
     }

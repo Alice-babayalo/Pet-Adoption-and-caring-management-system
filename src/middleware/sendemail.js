@@ -2,10 +2,10 @@ import nodemailer from 'nodemailer';
 
 export const sendEmail = (recipient, subject, body) => {
     const transporter = nodemailer.createTransport({
-        service: process.env.EMAIL_SERVICE,
+        service: process.env.EMAIL_SERVICE||"gmail",
         auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASSWORD
+            user: process.env.EMAIL_USER||"umuhozawasealice@gmail.com",
+            pass: process.env.EMAIL_PASSWORD||"arqe qkkc jcgs orsc"
         }
     });
 
